@@ -1,0 +1,3 @@
+*.pyc
+gn/out
+chromium/third_party/blink/renderer/core/html/jimber/protobuf/cpp

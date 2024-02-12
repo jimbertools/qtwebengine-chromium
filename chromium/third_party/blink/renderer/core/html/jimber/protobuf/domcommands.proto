@@ -1,0 +1,495 @@
+syntax = "proto3";
+
+package jimber;
+
+enum CommandType {
+  DOM = 0; CSS = 1; IMAGE = 2; APPENDCHILD = 3; INSERTCHILD = 4;
+  REMOVECHILD = 5;
+  CSSTEXTUPDATE = 6;
+  CSSPROPERTYUPDATE = 7;
+  ATTRIBUTECHANGED = 8;
+  SETCHARACTERDATA = 9;
+  INSERTCSSRULE = 10;
+  DELETECSSRULE = 11;
+  SETSCROLL = 12;
+  DISPATCHEVENT = 13;
+  SETFOCUS = 14;
+  INSERTTEXTINTONODE = 15;
+  DELETETEXTFROMNODE = 16;
+  REPLACETEXTINNODE = 17;
+  SETINPUTSELECTION = 18;
+  SETVALUE = 19;
+  SETSELECTION = 20;
+  SETHOVERED = 21;
+  ATTACHSHADOW = 22;
+  CREATEFONTFACE = 23;
+  SETIMAGEFORELEMENT = 24;
+  SETHTMLIMAGEFORELEMENT = 25;
+  SETCSSIMAGE = 26;
+  REPLACECUSTOMFONT = 27;
+  ADDSOURCEBUFFER = 28;
+  APPENDDATATOSOURCEBUFFER = 29;
+  ATTACHMEDIASOURCETOELEMENT = 30;
+  MEDIAELEMENTACTION = 31;
+  RESETSOURCEBUFFERPARSER = 32;
+  MEDIASOURCEACTION = 33;
+  CREATENODE = 34;
+  DELETENODE = 35;
+  REPLACECHILD = 36;
+  CREATECONSTRUCTEDSTYLESHEET = 37;
+  SETADOPTEDSTYLESHEETS = 38;
+  CSSSTYLESHEETREPLACE = 39;
+  CLEARDOCUMENT = 40;
+  SETCHECKED = 41;
+  OPENSELECTIONMENU = 42;
+  CLOSESELECTIONMENU = 43;
+  SETSELECTEDOPTION = 44;
+  INIT = 45;
+  CANVASVIDEODATA = 46;
+  CANVASIMAGEDATA = 47;
+  CLEARCANVAS = 48;
+  IMAGEWITHBLOBURL = 49;
+  FULLSCREENREQUEST = 50;
+  CREATEFONTFACEFROMJS = 51;
+  ATTACHFONTFACETODOCUMENT = 52;
+}
+
+enum NodeType {
+  TEXT = 0; ELEMENT = 1; COMMENT = 2; DOCTYPE = 3; FRAGMENT = 4; SHADOW = 5;
+  IFRAME = 6; DOCUMENT = 7;
+}
+
+enum AnchorType {
+  OffsetInAnchor = 0; BeforeAnchor = 1; AfterAnchor = 2; BeforeChildren = 3;
+  AfterChildren = 4;
+};
+
+enum MediaSourceAction {
+  CREATE = 0;
+  CLOSE = 1;
+  MARKENDOFSTREAM = 2;
+}
+
+enum MediaElementAction {
+  PLAY = 0;
+  PAUSE = 1;
+  SETMUTED = 2;
+  SEEK = 4;
+  VOLUME = 5;
+  SETPLAYBACKRATE = 6;
+  STOP = 7;
+}
+
+message CommandQueue {
+  repeated Command commands = 1;
+}
+
+message Command {
+  CommandType commandType = 1;
+  oneof cmd {
+    DomCommand domCommand = 2;
+    CssCommand cssCommand = 3;
+    ImageCommand imageCommand = 4;
+    AppendChildCommand appendChildCommand = 5;
+    InsertBeforeCommand insertBeforeCommand = 6;
+    RemoveChildCommand removeChildCommand = 7;
+    CssTextUpdateCommand cssTextUpdateCommand = 8;
+    CssPropertyUpdateCommand cssPropertyUpdateCommand = 9;
+    AttributeChangedCommand attributeChangedCommand = 10;
+    SetCharacterDataCommand setCharacterDataCommand = 11;
+    InsertCssRuleCommand insertCssRuleCommand = 12;
+    DeleteCssRuleCommand deleteCssRuleCommand = 13;
+    SetScrollCommand setScrollCommand = 14;
+    SetFocusCommand setFocusCommand = 15;
+    InsertTextIntoNodeCommand insertTextIntoNodeCommand = 16;
+    DeleteTextFromNodeCommand deleteTextFromNodeCommand = 17;
+    ReplaceTextInNodeCommand replaceTextInNodeCommand = 18;
+    SetInputSelectionCommand setInputSelectionCommand = 19;
+    SetValueCommand setValueCommand = 20;
+    SetSelectionCommand setSelectionCommand = 21;
+    SetHoveredCommand setHoveredCommand = 22;
+    AttachShadowCommand attachShadowCommand = 23;
+    CreateFontFaceCommand createFontFaceCommand = 24;
+    SetHtmlImageForElementCommand setHtmlImageForElementCommand = 25;
+    SetCssImageCommand setCssImageCommand = 26;
+    ReplaceCustomFontCommand replaceCustomFontCommand = 27;
+    AddSourceBufferCommand addSourceBufferCommand = 29;
+    AppendDataToSourceBufferCommand appendDataToSourceBufferCommand = 30;
+    AttachMediaSourceToElementCommand attachMediaSourceToElementCommand = 31;
+    MediaElementActionCommand mediaElementActionCommand = 32;
+    SetAppendWindowStartCommand setAppendWindowStartCommand = 33;
+    SetAppendWindowEndCommand setAppendWindowEndCommand = 34;
+    ResetSourceBufferParserCommand resetSourceBufferParserCommand = 35;
+    MediaSourceActionCommand mediaSourceActionCommand = 36;
+    CreateNodeCommand createNodeCommand = 37;
+    ReplaceChildCommand replaceChildCommand = 38;
+    DeleteNodeCommand deleteNodeCommand = 39;
+    CreateConstructedStyleSheetCommand createConstructedStyleSheetCommand = 40;
+    SetAdoptedStyleSheetsCommand setAdoptedStyleSheetsCommand = 41;
+    CSSStyleSheetReplaceCommand CSSStyleSheetReplaceCommand = 42;
+    ClearDocumentCommand clearDocumentCommand = 43;
+    SetCheckedCommand setCheckedCommand = 44;
+    OpenSelectionMenuCommand openSelectionMenuCommand = 45;
+    CloseSelectionMenuCommand closeSelectionMenuCommand = 46;
+    SetSelectedOptionCommand setSelectedOptionCommand = 47;
+    InitCommand initCommand = 48;
+    CanvasVideoDataCommand canvasVideoDataCommand = 49;
+    CanvasImageDataCommand canvasImageDataCommand = 50;
+    ClearCanvasCommand clearCanvasCommand = 51;
+    ImageWithBlobUrlcommand imageWithBlobUrlcommand = 52;
+    FullScreenRequestCommand fullScreenRequestCommand = 53;
+    CreateFontFaceFromJSCommand createFontFaceFromJSCommand = 54;
+    AttachFontFaceToDocument attachFontFaceToDocument = 55;
+
+  }
+}
+
+message Attribute {
+  string name = 1;
+  string value = 2;
+}
+
+message Node {
+  string nodeName = 1;
+  string nodeValue = 2;
+  repeated Node children = 3;
+  NodeType nodeType = 4;
+  repeated Attribute attributes = 5;
+  string nameSpace = 6;
+  string publicId = 7;
+  string systemId = 8;
+  bool focused = 9;
+  uint32 selectionStart = 10;
+  uint32 selectionEnd = 11;
+  string imageUUID = 12;
+  string mediaSourceId = 13;
+}
+
+message QuerySelector {
+  repeated string parents = 1;
+  string querySelector = 2;
+  bool isTextNode = 3;
+  int32 textIndex = 4;
+  bool isInShadowTree = 5;
+}
+
+message DomCommand {
+  uint32 nodeId = 1;
+  // QuerySelector querySelector = 1;
+  // repeated Node nodes = 2;
+  // QuerySelector activeElement = 3;
+  // uint32 selectionStart = 4;
+  // uint32 selectionEnd = 5;
+}
+
+message CssCommand {
+  uint32 nodeId = 1;
+  string cssText = 2;
+}
+
+message ImageCommand {
+  bytes data = 1;
+  string inlineData = 2;
+  string uuid = 3;
+  string mimeType = 4;
+}
+
+message AppendChildCommand {
+  uint32 parentId = 1;
+  uint32 childId = 2;
+}
+
+message InsertBeforeCommand {
+  uint32 parentId = 1;
+  uint32 refChildId = 2;
+  uint32 newChildId = 3;
+}
+
+message RemoveChildCommand {
+  uint32 nodeId = 1;
+}
+
+message CssTextUpdateCommand {
+  uint32 nodeId = 1;
+  string cssText = 2;
+}
+
+message CssPropertyUpdateCommand {
+  uint32 nodeId = 1;
+  string propertyName = 2;
+  string propertyValue = 3;
+}
+
+message AttributeChangedCommand {
+  uint32 nodeId = 1;
+  string attributeName = 2;
+  string attributeValue = 3;
+  bool null = 4;
+}
+
+message SetCharacterDataCommand {
+  uint32 nodeId = 1;
+  string data = 2;
+}
+
+message InsertCssRuleCommand {
+  uint32 nodeId = 1;
+  string rule = 2;
+  uint32 ruleIndex = 3;
+  string constructedUUID = 4;
+}
+
+message DeleteCssRuleCommand {
+  uint32 nodeId = 1;
+  int32 stylesheetIndex = 2;
+  int32 ruleIndex = 3;
+  string constructedUUID = 4;
+}
+
+message SetScrollCommand {
+  uint32 nodeId = 1;
+  int32 scrollX = 2;
+  int32 scrollY = 3;
+}
+
+message DispatchEventCommand {
+  uint32 nodeId = 1;
+  string eventType = 2;
+}
+
+message SetFocusCommand {
+  uint32 nodeId = 1;
+  bool flag = 2;
+}
+
+message InsertTextIntoNodeCommand {
+  uint32 nodeId = 1;
+  uint32 offset = 2;
+  string text = 3;
+}
+
+message DeleteTextFromNodeCommand {
+  uint32 nodeId = 1;
+  uint32 offset = 2;
+  uint32 count = 3;
+  uint32 selectionStart = 4;
+  uint32 selectionEnd = 5;
+}
+
+message ReplaceTextInNodeCommand {
+  uint32 nodeId = 1;
+  uint32 offset = 2;
+  uint32 count = 3;
+  string text = 4;
+}
+
+message SetInputSelectionCommand {
+  uint32 nodeId = 1;
+  uint32 start = 2;
+  uint32 end = 3;
+}
+
+message SetValueCommand {
+  uint32 nodeId = 1;
+  string value = 2;
+}
+
+message SetSelectionCommand {
+  uint32 ownerDocumentId = 1;
+  uint32 startNodeId = 2;
+  uint32 startOffset = 3;
+  AnchorType startType = 4;
+  uint32 endNodeId = 5;
+  uint32 endOffset = 6;
+  AnchorType endType = 7;
+}
+
+message SetHoveredCommand {
+  uint32 nodeId = 1;
+  bool hovered = 2;
+}
+
+message AttachShadowCommand {
+  uint32 nodeId = 1;
+  uint32 shadowId = 2;
+}
+
+message CreateFontFaceCommand {
+  uint32 nodeId = 1;
+  string fontName = 2;
+  string fontFile = 3;
+  uint32 fontStyle = 4;
+  uint32 fontWeight = 5;
+  uint32 fontStretch = 6;
+}
+
+message CreateFontFaceFromJSCommand {
+  string fontFaceUUID = 1;
+  string fontFamily = 2;
+  string source = 3;
+  string fontStyle = 4;
+  string fontWeight = 5;
+  string fontStretch = 6;
+  string fontDisplay = 7;
+}
+
+message SetHtmlImageForElementCommand {
+  uint32 nodeId = 1;
+    string imageUUID = 2;
+}
+
+message SetCssImageCommand {
+  uint32 nodeId = 1;
+    string imageUUID = 2;
+}
+
+message ReplaceCustomFontCommand {
+  uint32 nodeId = 1;
+  string fontName = 2;
+}
+
+message AddSourceBufferCommand {
+  string mediaSourceId = 1;
+  string UUID = 2;
+  string mediatype = 3;
+  string codecs = 4;
+}
+
+message AppendDataToSourceBufferCommand {
+  string mediaSourceId = 1;
+  string UUID = 2;
+  double timestampOffset = 3;
+  bytes data = 4;
+}
+
+message AttachMediaSourceToElementCommand {
+  uint32 nodeId = 1;
+  string mediaSourceId = 2;
+}
+
+message MediaElementActionCommand {
+  uint32 nodeId = 1;
+  MediaElementAction action = 2;
+  double value = 3;
+}
+
+message SetAppendWindowStartCommand {
+  string UUID = 1;
+  double time = 2;
+}
+
+message SetAppendWindowEndCommand {
+  string UUID = 1;
+  double time = 2;
+}
+
+message ResetSourceBufferParserCommand {
+  string mediaSourceId = 1;
+  string UUID = 2;
+}
+
+message MediaSourceActionCommand {
+  string UUID = 1;
+  MediaSourceAction action = 2;
+}
+
+message CreateNodeCommand {
+  string nodeName = 1;
+  NodeType nodeType = 2;
+  uint32 nodeId = 3;
+  uint32 localOwnerId = 4;
+  uint32 documentNodeId = 5;
+  uint32 ownerDocumentNodeId = 6;
+  string nodeValue = 7;
+  string nameSpace = 8;
+}
+
+message DeleteNodeCommand {
+  uint32 nodeId = 1;
+}
+
+message ReplaceChildCommand {
+  uint32 toReplaceId = 1;
+  uint32 replaceWithId = 2;
+}
+
+message CreateConstructedStyleSheetCommand {
+  uint32 nodeId = 1;
+  string constructedUUID = 2;
+}
+
+message SetAdoptedStyleSheetsCommand {
+  uint32 nodeId = 1;
+  repeated string constructedUUID = 2;
+}
+
+message CSSStyleSheetReplaceCommand {
+  uint32 nodeId = 1;
+  string constructedUUID = 2;
+  string replaceString = 3;
+  bool sync = 4;
+}
+
+message ClearDocumentCommand {
+  uint32 nodeId = 1;
+}
+
+message SetCheckedCommand {
+  uint32 nodeId = 1;
+  bool checked = 2;
+}
+
+message OpenSelectionMenuCommand {
+  uint32 nodeId = 1;
+  uint32 x = 2;
+  uint32 y = 3;
+  uint32 width = 4;
+  uint32 height = 5;
+  repeated string options = 6;
+}
+
+message CloseSelectionMenuCommand {
+  uint32 nodeId = 1;
+}
+
+message SetSelectedOptionCommand {
+  uint32 nodeId = 1;
+  uint32 selectOptionIndex = 2;
+}
+
+message InitCommand {
+}
+
+message CanvasVideoDataCommand {
+  uint32 nodeId = 1;
+  uint32 width = 2;
+  uint32 height = 3;
+  bytes data = 4;
+}
+
+message CanvasImageDataCommand {
+  uint32 nodeId = 1;
+  uint32 width = 2;
+  uint32 height = 3;
+  bytes data = 4;
+}
+
+message ClearCanvasCommand {
+  uint32 nodeId = 1;
+}
+
+message ImageWithBlobUrlcommand {
+  uint32 nodeId = 1;
+  string mimeType = 4;
+  string blobUrl = 2;
+  bytes data = 3;
+}
+
+message FullScreenRequestCommand{
+  uint32 nodeId = 1;
+}
+
+message AttachFontFaceToDocument{
+  uint32 nodeId = 1;
+  string fontFaceUUID = 2;
+}

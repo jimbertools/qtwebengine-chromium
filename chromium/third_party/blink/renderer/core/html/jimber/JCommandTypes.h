@@ -1,0 +1,18 @@
+#pragma once
+
+
+//todo remove? no longer used?
+enum JCommandTypes : int {
+  DOM,
+  CSS,
+  IMAGE,
+  APPENDCHILD,
+  INSERTCHILD,
+  REMOVECHILD,
+  CSSTEXTUPDATE,
+  CSSPROPERTYUPDATE,
+  ATTRIBUTECHANGED,
+  SETCHARACTERDATA,
+  INSERTCSSRULE,
+  DELETECSSRULE
+};
